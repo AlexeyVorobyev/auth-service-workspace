@@ -16,10 +16,20 @@ services:
 
   auth-service-nest:
     container_name: "auth-service-nest"
+    environment:
+      ADMIN_PASSWORD: admin
+      ADMIN_EMAIL: admin@mail.com
+    env_file:
+      - path: ./repository/auth-service-nest/env/.env
+        required: true
     build:
       context: repository/auth-service-nest
     ports:
       - '5001:8081'
+    depends_on:
+      - postgres-db
+    networks:
+      - dev-network
 
 networks:
   dev-network:
