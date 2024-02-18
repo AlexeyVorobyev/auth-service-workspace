@@ -1,0 +1,3 @@
+[submodule "repository/auth-service-nest"]
+	path = repository/auth-service-nest
+	url = git@github.com:AlexeyVorobyev/auth-service-nest.git

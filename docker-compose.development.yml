@@ -1,0 +1,26 @@
+version: "1.0"
+name: "auth-service-microservices"
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: "postgres-db"
+    restart: unless-stopped
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_DB: auth-database-nest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    networks:
+      - dev-network
+
+  auth-service-nest:
+    container_name: "auth-service-nest"
+    build:
+      context: repository/auth-service-nest
+    ports:
+      - '5001:8081'
+
+networks:
+  dev-network:
+    driver: bridge
