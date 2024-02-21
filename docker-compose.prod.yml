@@ -40,7 +40,7 @@ services:
       ADMIN_EMAIL: ${AUTH_SERVICE_EMAIL:-admin@mail.com}
       ADMIN_PASSWORD: ${AUTH_SERVICE_PASSWORD:-admin}
     env_file:
-      - path: ./repository/auth-service-nest/env/.env.prod
+      - path: repository/auth-service-nest/env/.env.prod
         required: true
     build:
       context: repository/auth-service-nest
@@ -51,6 +51,26 @@ services:
     networks:
       dev-network:
         ipv4_address: ${AUTH_SERVICE_NEST_ADDRESS}
+
+  nginx-reverse-proxy:
+    container_name: nginx-reverse-proxy
+    build:
+      context: nginx
+      no_cache: true
+    hostname: nginx-reverse-proxy
+    environment:
+      AUTH_SERVICE_NEST_ADDRESS: ${AUTH_SERVICE_NEST_ADDRESS}
+      POSTGRES_DB_ADDRESS: ${POSTGRES_DB_ADDRESS}
+      POSTGRES_ADMIN_PANEL_ADDRESS: ${POSTGRES_ADMIN_PANEL_ADDRESS}
+    ports:
+      - ${NGINX_REVERSE_PROXY_EXTERNAL_PORT}:80
+    depends_on:
+      - postgres-db
+      - postgres-admin-panel
+      - auth-service-nest
+    networks:
+      dev-network:
+        ipv4_address: ${NGINX_REVERSE_PROXY_ADDRESS}
 
 networks:
   dev-network:
