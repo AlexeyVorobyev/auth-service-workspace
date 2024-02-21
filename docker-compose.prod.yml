@@ -1,0 +1,45 @@
+version: "1.0"
+name: "auth-service-microservices"
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: postgres-db
+    restart: unless-stopped
+    hostname: postgres-db
+    ports:
+      - ${POSTGRES_DB_EXTERNAL_PORT}:5432
+    environment:
+      POSTGRES_DB: auth-database-nest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    networks:
+      dev-network:
+        ipv4_address: ${POSTGRES_DB_ADDRESS}
+
+  auth-service-nest:
+    container_name: auth-service-nest
+    hostname: auth-service-nest
+    environment:
+      ADMIN_PASSWORD: admin
+      ADMIN_EMAIL: admin@mail.com
+    env_file:
+      - path: ./repository/auth-service-nest/env/.env.prod
+        required: true
+    build:
+      context: repository/auth-service-nest
+    ports:
+      - ${AUTH_SERVICE_NEST_EXTERNAL_PORT}:8081
+    depends_on:
+      - postgres-db
+    networks:
+      dev-network:
+        ipv4_address: ${AUTH_SERVICE_NEST_ADDRESS}
+
+networks:
+  dev-network:
+    driver: bridge
+    external: true
+    ipam:
+      config:
+        - subnet: ${COMPOSE_SUBNET}
+          gateway: ${COMPOSE_GATEWAY}
