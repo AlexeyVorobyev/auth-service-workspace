@@ -29,6 +29,9 @@ services:
       PGADMIN_LISTEN_PORT: 80
     ports:
       - ${POSTGRES_ADMIN_PANEL_EXTERNAL_PORT}:80
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json # preconfigured servers/connections
+      - ./pgadmin/.pgpass:/.pgpass # passwords for the connections in this file
     networks:
       dev-network:
         ipv4_address: ${POSTGRES_ADMIN_PANEL_ADDRESS}

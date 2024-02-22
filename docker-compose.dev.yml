@@ -33,28 +33,12 @@ services:
       dev-network:
         ipv4_address: ${POSTGRES_ADMIN_PANEL_ADDRESS}
 
-  mailhog-smtp:
-    container_name: mailhog-smtp
-    image: mailhog/mailhog:latest
-    build:
-      no_cache: true
-    hostname: mailhog-smtp
-    environment:
-      MH_OUTGOING_SMTP: ${MAILHOG_SMTP_OUTGOING_SMTP}
-    ports:
-      - 1025:1025
-      - 8025:8025
-    networks:
-      dev-network:
-        ipv4_address: ${MAILHOG_SMTP_ADDRESS}
-
   auth-service-nest:
     container_name: auth-service-nest
     build:
       context: repository/auth-service-nest
     hostname: auth-service-nest
     depends_on:
-      - mailhog-smtp
       - postgres-db
     environment:
       ADMIN_EMAIL: ${AUTH_SERVICE_EMAIL:-admin@mail.com}
