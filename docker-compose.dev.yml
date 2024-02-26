@@ -1,5 +1,6 @@
 version: "1.0"
 name: "auth-service-microservices"
+
 services:
   postgres-db:
     container_name: postgres-db
