@@ -4,3 +4,6 @@
 [submodule "repository/auth-service-admin-panel"]
 	path = repository/auth-service-admin-panel
 	url = git@github.com:AlexeyVorobyev/auth-service-admin-panel.git
+[submodule "repository/auth-service-single-point-entry"]
+	path = repository/auth-service-single-point-entry
+	url = git@github.com:AlexeyVorobyev/auth-service-single-point-entry.git
