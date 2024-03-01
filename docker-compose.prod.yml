@@ -63,7 +63,7 @@ services:
     depends_on:
       - auth-service-nest
     env_file:
-      - path: repository/auth-service-single-point-entry/.env.prod
+      - path: repository/auth-service-single-point-entry/.env
     ports:
       - ${AUTH_SERVICE_SINGLE_POINT_ENTRY_EXTERNAL_PORT}:3000
     networks:
