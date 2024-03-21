@@ -59,11 +59,12 @@ services:
     container_name: auth-service-single-point-entry
     build:
       context: repository/auth-service-single-point-entry
+      args:
+        VITE_APP_API_AUTH_SERVICE_ADDRESS: 'http://10.5.0.5/api/graphql'
+        VITE_APP_BASE_URL: 'entrypoint/'
     hostname: auth-service-single-point-entry
     depends_on:
       - auth-service-nest
-    env_file:
-      - path: repository/auth-service-single-point-entry/.env
     ports:
       - ${AUTH_SERVICE_SINGLE_POINT_ENTRY_EXTERNAL_PORT}:3000
     networks:
