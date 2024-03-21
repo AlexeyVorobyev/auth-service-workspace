@@ -46,6 +46,7 @@ services:
     environment:
       ADMIN_EMAIL: ${AUTH_SERVICE_EMAIL:-admin@mail.com}
       ADMIN_PASSWORD: ${AUTH_SERVICE_PASSWORD:-admin}
+      ADDRESS: ${APPLICATION_BASE_ADDRESS}/api
     env_file:
       - path: repository/auth-service-nest/env/.env.prod
         required: true
@@ -60,7 +61,7 @@ services:
     build:
       context: repository/auth-service-single-point-entry
       args:
-        VITE_APP_API_AUTH_SERVICE_ADDRESS: 'http://10.5.0.5/api/graphql'
+        VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
         VITE_APP_BASE_URL: 'entrypoint/'
     hostname: auth-service-single-point-entry
     depends_on:
@@ -76,8 +77,8 @@ services:
     build:
       context: repository/auth-service-admin-panel
       args:
-        VITE_APP_API_AUTH_SERVICE_ADDRESS: 'http://85.175.194.251:50430/api/graphql'
-        VITE_APP_ENTRYPOINT_SERVICE_NGINX_ADDRESS: 'http://85.175.194.251:50430/entrypoint/'
+        VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
+        VITE_APP_ENTRYPOINT_SERVICE_NGINX_ADDRESS: ${APPLICATION_BASE_ADDRESS}/entrypoint/
     hostname: auth-service-admin-panel
     depends_on:
       - auth-service-single-point-entry
