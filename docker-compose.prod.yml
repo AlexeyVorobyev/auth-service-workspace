@@ -91,6 +91,23 @@ services:
       dev-network:
         ipv4_address: ${AUTH_SERVICE_ADMIN_PANEL_ADDRESS}
 
+  postgres-db-external-oauth-auth-service:
+    container_name: postgres-db-external-oauth-auth-service
+    image: postgres:latest
+    restart: unless-stopped
+    hostname: postgres-db-external-oauth-auth-service
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - ${POSTGRES_DB_EXTERNAL_OAUTH_EXTERNAL_PORT}:5432
+    volumes:
+      - ./data/postgres-db-external-oauth:/var/lib/postgresql/data:cached
+    networks:
+      dev-network:
+        ipv4_address: ${POSTGRES_DB_EXTERNAL_OAUTH_ADDRESS}
+
   nginx-reverse-proxy:
     container_name: nginx-reverse-proxy
     build:
