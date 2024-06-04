@@ -62,10 +62,11 @@ services:
     container_name: auth-service-single-point-entry
     build:
       context: repository/auth-service-single-point-entry
-      args:
-        VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
-        VITE_APP_BASE_URL: 'entrypoint/'
     hostname: auth-service-single-point-entry
+    environment:
+      VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
+      VITE_APP_BASE_URL: 'entrypoint/'
+      NGINX_PORT: 3000
     depends_on:
       - auth-service-nest
     ports:
@@ -78,10 +79,11 @@ services:
     container_name: auth-service-admin-panel
     build:
       context: repository/auth-service-admin-panel
-      args:
-        VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
-        VITE_APP_ENTRYPOINT_SERVICE_NGINX_ADDRESS: ${APPLICATION_BASE_ADDRESS}/entrypoint/
     hostname: auth-service-admin-panel
+    environment:
+      VITE_APP_API_AUTH_SERVICE_ADDRESS: ${APPLICATION_BASE_ADDRESS}/api/graphql
+      VITE_APP_ENTRYPOINT_SERVICE_NGINX_ADDRESS: ${APPLICATION_BASE_ADDRESS}/entrypoint/
+      NGINX_PORT: 3000
     depends_on:
       - auth-service-single-point-entry
       - auth-service-nest
